@@ -1,256 +1,1008 @@
 <!DOCTYPE html>
-<html lang="en">
+<html lang="en" data-theme="dark">
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Kritam Chaudhary | Portfolio</title>
-    <!-- Importing Google Fonts and Icons -->
-    <link href="https://fonts.googleapis.com/css2?family=DM+Sans:wght@400;500;700&display=swap" rel="stylesheet">
+    <title>Kritam Chaudhary | Software Developer</title>
+    <!-- Fonts: DM Sans and DM Serif Display -->
+    <link href="https://fonts.googleapis.com/css2?family=DM+Serif+Display:ital@0;1&family=DM+Sans:wght@300;400;500;600;700&display=swap" rel="stylesheet">
+    <!-- FontAwesome for Icons -->
     <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
     <style>
-        /* CSS VARIABLES FOR THEMES */
+        /* ==========================================================================
+           1. CSS VARIABLES & THEMING
+           ========================================================================== */
         :root {
-            --bg-color: #f9f9f9;
-            --text-color: #1a1a2e;
-            --accent-color: #2563eb;
-            --card-bg: #ffffff;
+            /* Light Theme Variables */
+            --bg-color: #f8fafc;
+            --surface-color: #ffffff;
+            --text-primary: #0f172a;
+            --text-secondary: #475569;
+            --accent-primary: #2563eb;
+            --accent-secondary: #3b82f6;
+            --accent-light: #dbeafe;
             --border-color: #e2e8f0;
-            --transition: all 0.3s ease;
+            --card-shadow: 0 10px 30px -10px rgba(0, 0, 0, 0.05);
+            --nav-bg: rgba(255, 255, 255, 0.8);
+            --transition: all 0.4s cubic-bezier(0.4, 0, 0.2, 1);
         }
 
-        /* DARK MODE VARIABLES */
-        body.dark-mode {
-            --bg-color: #0f172a;
-            --text-color: #f8fafc;
-            --accent-color: #3b82f6;
-            --card-bg: #1e293b;
+        [data-theme="dark"] {
+            /* Dark Theme Variables */
+            --bg-color: #0b1120;
+            --surface-color: #1e293b;
+            --text-primary: #f8fafc;
+            --text-secondary: #94a3b8;
+            --accent-primary: #3b82f6;
+            --accent-secondary: #60a5fa;
+            --accent-light: #1e3a8a;
             --border-color: #334155;
+            --card-shadow: 0 10px 30px -10px rgba(0, 0, 0, 0.3);
+            --nav-bg: rgba(15, 23, 42, 0.8);
         }
 
-        /* GLOBAL STYLES */
-        * {
+        /* ==========================================================================
+           2. GLOBAL RESET & BASE STYLES
+           ========================================================================== */
+        *, *::before, *::after {
             margin: 0;
             padding: 0;
             box-sizing: border-box;
-            font-family: 'DM Sans', sans-serif;
+        }
+
+        html {
             scroll-behavior: smooth;
         }
 
         body {
+            font-family: 'DM Sans', sans-serif;
             background-color: var(--bg-color);
-            color: var(--text-color);
+            color: var(--text-primary);
+            line-height: 1.7;
             transition: var(--transition);
-            line-height: 1.6;
+            overflow-x: hidden;
         }
 
-        /* NAVIGATION */
-        nav {
+        h1, h2, h3, h4 {
+            font-family: 'DM Serif Display', serif;
+            font-weight: 400;
+            line-height: 1.2;
+        }
+
+        a {
+            text-decoration: none;
+            color: inherit;
+        }
+
+        ul {
+            list-style: none;
+        }
+
+        .container {
+            max-width: 1200px;
+            margin: 0 auto;
+            padding: 0 24px;
+        }
+
+        /* Custom Scrollbar */
+        ::-webkit-scrollbar { width: 10px; }
+        ::-webkit-scrollbar-track { background: var(--bg-color); }
+        ::-webkit-scrollbar-thumb { background: var(--border-color); border-radius: 5px; }
+        ::-webkit-scrollbar-thumb:hover { background: var(--accent-primary); }
+
+        /* ==========================================================================
+           3. NAVIGATION
+           ========================================================================== */
+        header {
+            position: fixed;
+            top: 0;
+            left: 0;
+            width: 100%;
+            z-index: 1000;
+            background: var(--nav-bg);
+            backdrop-filter: blur(12px);
+            -webkit-backdrop-filter: blur(12px);
+            border-bottom: 1px solid var(--border-color);
+            transition: var(--transition);
+        }
+
+        .nav-container {
             display: flex;
             justify-content: space-between;
             align-items: center;
-            padding: 20px 10%;
-            background-color: var(--card-bg);
-            box-shadow: 0 2px 10px rgba(0,0,0,0.1);
-            position: fixed;
-            width: 100%;
-            top: 0;
-            z-index: 1000;
+            height: 80px;
         }
 
-        .logo { font-size: 1.5rem; font-weight: 700; color: var(--accent-color); }
-        .nav-links { display: flex; gap: 20px; list-style: none; }
-        .nav-links a { text-decoration: none; color: var(--text-color); font-weight: 500; transition: var(--transition); }
-        .nav-links a:hover { color: var(--accent-color); }
-        
-        #theme-toggle {
-            background: none; border: none; font-size: 1.2rem; cursor: pointer; color: var(--text-color); transition: var(--transition);
+        .logo {
+            font-family: 'DM Serif Display', serif;
+            font-size: 1.8rem;
+            color: var(--accent-primary);
+            letter-spacing: -0.5px;
         }
 
-        /* HERO SECTION */
-        .hero {
-            height: 100vh;
+        .nav-links {
             display: flex;
-            flex-direction: column;
-            justify-content: center;
-            align-items: flex-start;
-            padding: 0 10%;
+            gap: 32px;
+            align-items: center;
         }
 
-        .hero h1 { font-size: 4rem; margin-bottom: 10px; }
-        .hero h2 { font-size: 2rem; color: var(--accent-color); margin-bottom: 20px; height: 40px;}
-        .hero p { font-size: 1.2rem; max-width: 600px; margin-bottom: 30px; opacity: 0.8; }
-        
-        .btn {
-            padding: 12px 28px;
-            background-color: var(--accent-color);
-            color: white;
-            text-decoration: none;
-            border-radius: 8px;
-            font-weight: 600;
+        .nav-links a {
+            font-size: 1rem;
+            font-weight: 500;
+            position: relative;
             transition: var(--transition);
         }
-        .btn:hover { background-color: #1d4ed8; transform: translateY(-3px); box-shadow: 0 10px 20px rgba(37, 99, 235, 0.3); }
 
-        /* SECTIONS (About, Skills, Projects) */
-        section { padding: 100px 10%; }
-        .section-title { font-size: 2.5rem; margin-bottom: 40px; text-align: center; }
-
-        /* SKILLS GRID */
-        .skills-container { display: flex; gap: 15px; flex-wrap: wrap; justify-content: center; }
-        .skill-badge {
-            padding: 10px 20px; background-color: var(--card-bg); border: 1px solid var(--border-color);
-            border-radius: 50px; font-weight: 500; transition: var(--transition); cursor: default;
+        .nav-links a::after {
+            content: '';
+            position: absolute;
+            width: 0;
+            height: 2px;
+            bottom: -4px;
+            left: 0;
+            background-color: var(--accent-primary);
+            transition: var(--transition);
         }
-        .skill-badge:hover { background-color: var(--accent-color); color: white; transform: scale(1.1); }
 
-        /* PROJECTS GRID */
-        .projects-grid { display: grid; grid-template-columns: repeat(auto-fit, minmax(300px, 1fr)); gap: 30px; }
+        .nav-links a:hover::after { width: 100%; }
+        .nav-links a:hover { color: var(--accent-primary); }
+
+        .theme-btn {
+            background: none;
+            border: none;
+            color: var(--text-primary);
+            font-size: 1.2rem;
+            cursor: pointer;
+            padding: 8px;
+            border-radius: 50%;
+            transition: var(--transition);
+        }
+
+        .theme-btn:hover { background: var(--accent-light); color: var(--accent-primary); }
+
+        /* ==========================================================================
+           4. HERO SECTION
+           ========================================================================== */
+        .hero {
+            min-height: 100vh;
+            display: flex;
+            align-items: center;
+            padding-top: 80px;
+            position: relative;
+        }
+
+        .hero-content {
+            max-width: 800px;
+            z-index: 2;
+        }
+
+        .greeting {
+            color: var(--accent-primary);
+            font-weight: 600;
+            letter-spacing: 2px;
+            text-transform: uppercase;
+            margin-bottom: 16px;
+            display: block;
+        }
+
+        .hero h1 {
+            font-size: clamp(3rem, 5vw, 5rem);
+            margin-bottom: 16px;
+        }
+
+        .typing-container {
+            font-family: 'DM Sans', sans-serif;
+            font-size: clamp(1.5rem, 3vw, 2.5rem);
+            color: var(--text-secondary);
+            margin-bottom: 32px;
+            font-weight: 300;
+            height: 48px;
+        }
+
+        #cursor {
+            color: var(--accent-primary);
+            animation: blink 1s infinite;
+        }
+
+        @keyframes blink { 0%, 100% { opacity: 1; } 50% { opacity: 0; } }
+
+        .hero-desc {
+            font-size: 1.1rem;
+            color: var(--text-secondary);
+            margin-bottom: 40px;
+            max-width: 600px;
+        }
+
+        .btn-group {
+            display: flex;
+            gap: 16px;
+            flex-wrap: wrap;
+        }
+
+        .btn {
+            padding: 14px 32px;
+            border-radius: 8px;
+            font-weight: 600;
+            font-size: 1rem;
+            cursor: pointer;
+            transition: var(--transition);
+            display: inline-flex;
+            align-items: center;
+            gap: 8px;
+        }
+
+        .btn-primary {
+            background: var(--accent-primary);
+            color: white;
+            border: 2px solid var(--accent-primary);
+        }
+
+        .btn-primary:hover {
+            background: transparent;
+            color: var(--accent-primary);
+            box-shadow: 0 0 20px rgba(37, 99, 235, 0.4);
+        }
+
+        .btn-outline {
+            background: transparent;
+            color: var(--text-primary);
+            border: 2px solid var(--border-color);
+        }
+
+        .btn-outline:hover {
+            border-color: var(--accent-primary);
+            color: var(--accent-primary);
+        }
+
+        .social-links {
+            margin-top: 48px;
+            display: flex;
+            gap: 24px;
+        }
+
+        .social-links a {
+            font-size: 1.5rem;
+            color: var(--text-secondary);
+            transition: var(--transition);
+        }
+
+        .social-links a:hover {
+            color: var(--accent-primary);
+            transform: translateY(-3px);
+        }
+
+        /* ==========================================================================
+           5. SECTION TITLES & REVEAL ANIMATIONS
+           ========================================================================== */
+        section {
+            padding: 100px 0;
+        }
+
+        .section-header {
+            margin-bottom: 64px;
+            display: flex;
+            align-items: center;
+            gap: 24px;
+        }
+
+        .section-header h2 {
+            font-size: 2.5rem;
+            white-space: nowrap;
+        }
+
+        .section-line {
+            height: 1px;
+            background: var(--border-color);
+            width: 100%;
+            position: relative;
+        }
+
+        .section-line::after {
+            content: '';
+            position: absolute;
+            left: 0;
+            top: -1px;
+            height: 3px;
+            width: 50px;
+            background: var(--accent-primary);
+        }
+
+        /* Scroll Reveal Utility Classes */
+        .reveal {
+            opacity: 0;
+            transform: translateY(50px);
+            transition: all 0.8s cubic-bezier(0.5, 0, 0, 1);
+        }
+        
+        .reveal.active {
+            opacity: 1;
+            transform: translateY(0);
+        }
+
+        /* ==========================================================================
+           6. ABOUT SECTION
+           ========================================================================== */
+        .about-grid {
+            display: grid;
+            grid-template-columns: 1fr 1fr;
+            gap: 64px;
+            align-items: center;
+        }
+
+        .about-text p {
+            font-size: 1.1rem;
+            color: var(--text-secondary);
+            margin-bottom: 24px;
+        }
+
+        .about-text strong {
+            color: var(--accent-primary);
+        }
+
+        .interests-container {
+            margin-top: 32px;
+        }
+
+        .interests-title {
+            font-size: 1rem;
+            font-weight: 600;
+            margin-bottom: 16px;
+            color: var(--text-primary);
+            text-transform: uppercase;
+            letter-spacing: 1px;
+        }
+
+        .tags {
+            display: flex;
+            flex-wrap: wrap;
+            gap: 12px;
+        }
+
+        .tag {
+            background: var(--accent-light);
+            color: var(--accent-primary);
+            padding: 8px 16px;
+            border-radius: 20px;
+            font-size: 0.9rem;
+            font-weight: 500;
+            transition: var(--transition);
+        }
+
+        .tag:hover {
+            background: var(--accent-primary);
+            color: white;
+            transform: translateY(-2px);
+        }
+
+        /* ==========================================================================
+           7. EDUCATION TIMELINE
+           ========================================================================== */
+        .timeline {
+            position: relative;
+            max-width: 800px;
+            margin: 0 auto;
+        }
+
+        .timeline::before {
+            content: '';
+            position: absolute;
+            top: 0;
+            bottom: 0;
+            left: 20px;
+            width: 2px;
+            background: var(--border-color);
+        }
+
+        .timeline-item {
+            position: relative;
+            padding-left: 64px;
+            margin-bottom: 48px;
+        }
+
+        .timeline-item:last-child { margin-bottom: 0; }
+
+        .timeline-dot {
+            position: absolute;
+            left: 11px;
+            top: 0;
+            width: 20px;
+            height: 20px;
+            border-radius: 50%;
+            background: var(--accent-primary);
+            border: 4px solid var(--bg-color);
+            box-shadow: 0 0 0 4px var(--accent-light);
+        }
+
+        .timeline-date {
+            font-size: 0.9rem;
+            font-weight: 600;
+            color: var(--accent-primary);
+            margin-bottom: 8px;
+            display: block;
+            letter-spacing: 1px;
+        }
+
+        .timeline-content {
+            background: var(--surface-color);
+            padding: 32px;
+            border-radius: 12px;
+            border: 1px solid var(--border-color);
+            box-shadow: var(--card-shadow);
+            transition: var(--transition);
+        }
+
+        .timeline-content:hover {
+            transform: translateY(-5px);
+            border-color: var(--accent-primary);
+        }
+
+        .timeline-content h3 {
+            font-size: 1.5rem;
+            margin-bottom: 8px;
+        }
+
+        .timeline-subtitle {
+            font-size: 1rem;
+            color: var(--text-secondary);
+            margin-bottom: 16px;
+            font-weight: 500;
+        }
+
+        .timeline-content ul {
+            padding-left: 20px;
+        }
+
+        .timeline-content li {
+            position: relative;
+            margin-bottom: 8px;
+            color: var(--text-secondary);
+        }
+
+        .timeline-content li::before {
+            content: '▹';
+            position: absolute;
+            left: -20px;
+            color: var(--accent-primary);
+        }
+
+        /* ==========================================================================
+           8. SKILLS SECTION (Progress Bars)
+           ========================================================================== */
+        .skills-grid {
+            display: grid;
+            grid-template-columns: 1fr 1fr;
+            gap: 48px;
+        }
+
+        .skill-category h3 {
+            margin-bottom: 32px;
+            font-size: 1.5rem;
+            display: flex;
+            align-items: center;
+            gap: 12px;
+        }
+
+        .skill-category h3 i { color: var(--accent-primary); }
+
+        .skill-box { margin-bottom: 24px; }
+
+        .skill-info {
+            display: flex;
+            justify-content: space-between;
+            margin-bottom: 8px;
+            font-weight: 500;
+        }
+
+        .progress-line {
+            height: 8px;
+            background: var(--border-color);
+            border-radius: 4px;
+            overflow: hidden;
+            position: relative;
+        }
+
+        .progress-line span {
+            position: absolute;
+            height: 100%;
+            background: var(--accent-primary);
+            border-radius: 4px;
+            width: 0; /* Will be set via inline style/JS for animation */
+            transition: width 1.5s ease-in-out;
+        }
+
+        /* ==========================================================================
+           9. PROJECTS GRID
+           ========================================================================== */
+        .projects-grid {
+            display: grid;
+            grid-template-columns: repeat(auto-fill, minmax(350px, 1fr));
+            gap: 32px;
+        }
+
         .project-card {
-            background-color: var(--card-bg); border: 1px solid var(--border-color); border-radius: 12px;
-            padding: 25px; transition: var(--transition); cursor: pointer;
+            background: var(--surface-color);
+            border: 1px solid var(--border-color);
+            border-radius: 12px;
+            padding: 32px;
+            box-shadow: var(--card-shadow);
+            transition: var(--transition);
+            display: flex;
+            flex-direction: column;
+            height: 100%;
         }
-        .project-card:hover { transform: translateY(-10px); box-shadow: 0 20px 40px rgba(0,0,0,0.1); border-color: var(--accent-color); }
-        .project-card h3 { color: var(--accent-color); margin-bottom: 10px; }
-        .project-card i { font-size: 2rem; margin-bottom: 15px; color: var(--text-color); }
 
-        /* FOOTER */
-        footer { text-align: center; padding: 30px; background-color: var(--card-bg); border-top: 1px solid var(--border-color); }
+        .project-card:hover {
+            transform: translateY(-10px);
+            border-color: var(--accent-primary);
+        }
+
+        .project-header {
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            margin-bottom: 24px;
+        }
+
+        .project-icon {
+            font-size: 2rem;
+            color: var(--accent-primary);
+        }
+
+        .project-links a {
+            color: var(--text-secondary);
+            font-size: 1.2rem;
+            transition: var(--transition);
+        }
+
+        .project-links a:hover { color: var(--accent-primary); }
+
+        .project-card h3 {
+            font-size: 1.4rem;
+            margin-bottom: 16px;
+        }
+
+        .project-card p {
+            color: var(--text-secondary);
+            margin-bottom: 24px;
+            flex-grow: 1;
+        }
+
+        .project-tech {
+            display: flex;
+            gap: 12px;
+            font-family: monospace;
+            font-size: 0.85rem;
+            color: var(--accent-secondary);
+            flex-wrap: wrap;
+        }
+
+        .status-badge {
+            background: #fef3c7;
+            color: #d97706;
+            padding: 4px 8px;
+            border-radius: 4px;
+            font-size: 0.8rem;
+            font-weight: 600;
+            font-family: 'DM Sans', sans-serif;
+            letter-spacing: 0;
+        }
+
+        /* ==========================================================================
+           10. FOOTER & CONTACT
+           ========================================================================== */
+        .contact-section {
+            text-align: center;
+            max-width: 600px;
+            margin: 0 auto;
+            padding: 100px 0;
+        }
+
+        .contact-section h2 {
+            font-size: 3rem;
+            margin-bottom: 24px;
+        }
+
+        .contact-section p {
+            font-size: 1.2rem;
+            color: var(--text-secondary);
+            margin-bottom: 40px;
+        }
+
+        footer {
+            text-align: center;
+            padding: 32px 0;
+            border-top: 1px solid var(--border-color);
+            color: var(--text-secondary);
+            font-size: 0.9rem;
+        }
+
+        /* Responsive Design */
+        @media (max-width: 768px) {
+            .about-grid { grid-template-columns: 1fr; }
+            .skills-grid { grid-template-columns: 1fr; }
+            .hero h1 { font-size: 3rem; }
+            .nav-links { display: none; /* In a real app, add a hamburger menu here */ }
+        }
     </style>
 </head>
 <body>
 
     <!-- NAVIGATION -->
-    <nav>
-        <div class="logo">Kritam.</div>
-        <ul class="nav-links">
-            <li><a href="#about">About</a></li>
-            <li><a href="#skills">Skills</a></li>
-            <li><a href="#projects">Projects</a></li>
-            <li><a href="#contact">Contact</a></li>
-            <li><button id="theme-toggle"><i class="fas fa-moon"></i></button></li>
-        </ul>
-    </nav>
+    <header>
+        <div class="container nav-container">
+            <a href="#" class="logo">Kritam.</a>
+            <nav class="nav-links">
+                <a href="#about">About</a>
+                <a href="#education">Education</a>
+                <a href="#skills">Skills</a>
+                <a href="#projects">Projects</a>
+                <button id="theme-toggle" class="theme-btn" aria-label="Toggle Dark Mode">
+                    <i class="fas fa-moon"></i>
+                </button>
+            </nav>
+        </div>
+    </header>
 
     <!-- HERO SECTION -->
-    <section class="hero" id="home">
-        <h1>Hi, I'm Kritam Chaudhary</h1>
-        <!-- The JS typing effect will go inside this span -->
-        <h2><span id="typing-text"></span><span style="color:var(--text-color)">|</span></h2>
-        <p>I am a passionate developer from Nepal, learning how to build software, analyze data, and solve real-world problems using code.</p>
-        <div style="display: flex; gap: 15px;">
-            <a href="#projects" class="btn">View My Work</a>
-            <a href="https://github.com/chykritam" target="_blank" class="btn" style="background-color: #333;"><i class="fab fa-github"></i> GitHub</a>
+    <section class="hero container" id="home">
+        <div class="hero-content reveal">
+            <span class="greeting">Welcome to my portfolio</span>
+            <h1>Kritam Chaudhary.</h1>
+            <div class="typing-container">
+                I build <span id="typing-text"></span><span id="cursor">|</span>
+            </div>
+            <p class="hero-desc">
+                I'm a BSc Computer Science student at ISMT College (University of Sunderland) based in Kathmandu, Nepal. I specialize in Python, software engineering, and database systems, with a strong interest in Cybersecurity and GovTech.
+            </p>
+            <div class="btn-group">
+                <a href="#projects" class="btn btn-primary"><i class="fas fa-code"></i> View Projects</a>
+                <a href="mailto:chykritam137@gmail.com" class="btn btn-outline"><i class="fas fa-paper-plane"></i> Get In Touch</a>
+            </div>
+            <div class="social-links">
+                <a href="https://github.com/chykritam" target="_blank" title="GitHub"><i class="fab fa-github"></i></a>
+                <a href="https://linkedin.com/in/kritam-chaudhary-970604216" target="_blank" title="LinkedIn"><i class="fab fa-linkedin-in"></i></a>
+                <a href="https://kritamchaudhary.com.np" target="_blank" title="Website"><i class="fas fa-globe"></i></a>
+            </div>
+        </div>
+    </section>
+
+    <!-- ABOUT SECTION -->
+    <section id="about" class="container">
+        <div class="section-header reveal">
+            <h2>About Me</h2>
+            <div class="section-line"></div>
+        </div>
+        
+        <div class="about-grid">
+            <div class="about-text reveal">
+                <p>Hello! I am a First-year <strong>BSc (Hons) Computer Science</strong> student building practical skills in software engineering, database systems, and cybersecurity through real projects alongside my coursework.</p>
+                <p>I am currently seeking internship opportunities to apply my academic knowledge to real-world problems. My long-term goal is to pursue a Master's degree in Germany and build a meaningful career in <strong>GovTech or Cybersecurity</strong>.</p>
+                
+                <div class="interests-container">
+                    <h3 class="interests-title">Core Interests</h3>
+                    <div class="tags">
+                        <span class="tag"><i class="fas fa-shield-alt"></i> Cybersecurity</span>
+                        <span class="tag"><i class="fas fa-landmark"></i> GovTech</span>
+                        <span class="tag"><i class="fas fa-database"></i> Data Science</span>
+                        <span class="tag"><i class="fas fa-robot"></i> AI</span>
+                    </div>
+                </div>
+            </div>
+            <div class="about-text reveal" style="transition-delay: 0.2s;">
+                <h3 class="interests-title" style="margin-bottom: 24px;">Languages</h3>
+                
+                <div class="skill-box">
+                    <div class="skill-info"><span>Nepali (Native)</span><span>100%</span></div>
+                    <div class="progress-line"><span style="width: 100%"></span></div>
+                </div>
+                <div class="skill-box">
+                    <div class="skill-info"><span>English (Proficient)</span><span>90%</span></div>
+                    <div class="progress-line"><span style="width: 90%"></span></div>
+                </div>
+                <div class="skill-box">
+                    <div class="skill-info"><span>German (Beginner)</span><span>25%</span></div>
+                    <div class="progress-line"><span style="width: 25%"></span></div>
+                </div>
+            </div>
+        </div>
+    </section>
+
+    <!-- EDUCATION SECTION -->
+    <section id="education" class="container">
+        <div class="section-header reveal">
+            <h2>Education</h2>
+            <div class="section-line"></div>
+        </div>
+
+        <div class="timeline">
+            <!-- Degree -->
+            <div class="timeline-item reveal">
+                <div class="timeline-dot"></div>
+                <span class="timeline-date">Oct 2025 – Jul 2028</span>
+                <div class="timeline-content">
+                    <h3>BSc (Hons) Computer Science</h3>
+                    <p class="timeline-subtitle">ISMT College, Kathmandu | University of Sunderland, UK</p>
+                    <ul>
+                        <li><strong>Core modules:</strong> Software Engineering, Full Stack Development, Database Systems, Cybersecurity, AI, Agile Development.</li>
+                        <li>Assignment-based degree requiring structured technical documentation and independent research.</li>
+                    </ul>
+                </div>
+            </div>
+
+            <!-- High School -->
+            <div class="timeline-item reveal">
+                <div class="timeline-dot"></div>
+                <span class="timeline-date">Jul 2023 – Jun 2025</span>
+                <div class="timeline-content">
+                    <h3>+2 Science (Computer & Mathematics)</h3>
+                    <p class="timeline-subtitle">NAST, Dhangadhi, Kailali</p>
+                    <ul>
+                        <li>Graduated with a CGPA of <strong>2.94 / 4.0</strong></li>
+                        <li>Built foundational knowledge in mathematics, logic, and basic computer science principles.</li>
+                    </ul>
+                </div>
+            </div>
         </div>
     </section>
 
     <!-- SKILLS SECTION -->
-    <section id="skills">
-        <h2 class="section-title">My Technical Skills</h2>
-        <div class="skills-container">
-            <div class="skill-badge"><i class="fab fa-python"></i> Python</div>
-            <div class="skill-badge"><i class="fas fa-database"></i> MySQL</div>
-            <div class="skill-badge"><i class="fas fa-database"></i> SQLite</div>
-            <div class="skill-badge"><i class="fas fa-network-wired"></i> REST APIs</div>
-            <div class="skill-badge"><i class="fab fa-html5"></i> HTML5</div>
-            <div class="skill-badge"><i class="fab fa-css3-alt"></i> CSS3</div>
-            <div class="skill-badge"><i class="fab fa-git-alt"></i> Git & GitHub</div>
+    <section id="skills" class="container">
+        <div class="section-header reveal">
+            <h2>Technical & Professional Skills</h2>
+            <div class="section-line"></div>
+        </div>
+
+        <div class="skills-grid">
+            <div class="skill-category reveal">
+                <h3><i class="fas fa-laptop-code"></i> Technical Skills</h3>
+                
+                <div class="skill-box">
+                    <div class="skill-info"><span>Python (Logic, OOP, APIs)</span></div>
+                    <div class="progress-line"><span class="animate-bar" data-width="85%"></span></div>
+                </div>
+                <div class="skill-box">
+                    <div class="skill-info"><span>SQL & DBMS Fundamentals</span></div>
+                    <div class="progress-line"><span class="animate-bar" data-width="75%"></span></div>
+                </div>
+                <div class="skill-box">
+                    <div class="skill-info"><span>Git & GitHub (Version Control)</span></div>
+                    <div class="progress-line"><span class="animate-bar" data-width="80%"></span></div>
+                </div>
+                <div class="skill-box">
+                    <div class="skill-info"><span>HTML & CSS</span></div>
+                    <div class="progress-line"><span class="animate-bar" data-width="60%"></span></div>
+                </div>
+            </div>
+
+            <div class="skill-category reveal" style="transition-delay: 0.2s;">
+                <h3><i class="fas fa-user-tie"></i> Professional Traits</h3>
+                
+                <div class="skill-box">
+                    <div class="skill-info"><span>Analytical Problem-Solving</span></div>
+                    <div class="progress-line"><span class="animate-bar" data-width="90%"></span></div>
+                </div>
+                <div class="skill-box">
+                    <div class="skill-info"><span>Technical Documentation</span></div>
+                    <div class="progress-line"><span class="animate-bar" data-width="85%"></span></div>
+                </div>
+                <div class="skill-box">
+                    <div class="skill-info"><span>Self-Directed Learning</span></div>
+                    <div class="progress-line"><span class="animate-bar" data-width="95%"></span></div>
+                </div>
+                <div class="skill-box">
+                    <div class="skill-info"><span>Team Communication</span></div>
+                    <div class="progress-line"><span class="animate-bar" data-width="85%"></span></div>
+                </div>
+            </div>
         </div>
     </section>
 
     <!-- PROJECTS SECTION -->
-    <section id="projects" style="background-color: var(--card-bg);">
-        <h2 class="section-title">Recent Projects</h2>
+    <section id="projects" class="container">
+        <div class="section-header reveal">
+            <h2>Featured Projects</h2>
+            <div class="section-line"></div>
+        </div>
+
         <div class="projects-grid">
             
-            <div class="project-card">
-                <i class="fas fa-chart-line"></i>
-                <h3>NEPSE Stock Market API Fetcher</h3>
-                <p>Built a Python script using the `requests` library to fetch and parse live stock market data (LTP, Point Change, Hits) directly from the OnlineKhabar REST API.</p>
+            <!-- Project 1: Stock API -->
+            <div class="project-card reveal">
+                <div class="project-header">
+                    <i class="fas fa-chart-line project-icon"></i>
+                    <div class="project-links">
+                        <a href="https://github.com/chykritam" target="_blank"><i class="fab fa-github"></i></a>
+                    </div>
+                </div>
+                <h3>NEPSE Stock API Fetcher</h3>
+                <p>Engineered a Python script utilizing the `requests` library to bypass frontend HTML and directly interface with a live REST API, parsing real-time JSON market data.</p>
+                <div class="project-tech">
+                    <span>Python</span> <span>REST API</span> <span>JSON</span>
+                </div>
             </div>
 
-            <div class="project-card">
-                <i class="fas fa-users-cog"></i>
-                <h3 >School Management System</h3>
-                <p>Developed an Object-Oriented Python application utilizing complex class inheritance to manage bank accounts, student accounts, and library fine deductions.</p>
+            <!-- Project 2: OOP Bank -->
+            <div class="project-card reveal" style="transition-delay: 0.1s;">
+                <div class="project-header">
+                    <i class="fas fa-university project-icon"></i>
+                    <div class="project-links">
+                        <a href="https://github.com/chykritam" target="_blank"><i class="fab fa-github"></i></a>
+                    </div>
+                </div>
+                <h3>OOP Management System</h3>
+                <p>Developed a complex Object-Oriented application demonstrating class inheritance, private attributes (encapsulation), and constructor data passing.</p>
+                <div class="project-tech">
+                    <span>Python</span> <span>OOP</span> <span>Encapsulation</span>
+                </div>
             </div>
 
-            <div class="project-card">
-                <i class="fas fa-globe"></i>
-                <h3>Interactive CV Website</h3>
-                <p>Designed and deployed a responsive, interactive personal portfolio website hosted on a custom .com.np domain using GitHub and Vercel.</p>
+            <!-- Project 3: GPA Calc -->
+            <div class="project-card reveal" style="transition-delay: 0.2s;">
+                <div class="project-header">
+                    <i class="fas fa-calculator project-icon"></i>
+                    <div class="project-links">
+                        <a href="https://github.com/chykritam" target="_blank"><i class="fab fa-github"></i></a>
+                    </div>
+                </div>
+                <h3>CLI GPA Calculator</h3>
+                <p>Command-line tool applying conditional logic, user input handling, and structured grade computation. Fully documented with edge-case testing.</p>
+                <div class="project-tech">
+                    <span>Python</span> <span>CLI</span> <span>Logic Validation</span>
+                </div>
+            </div>
+
+            <!-- Project 4: Electricity Bill -->
+            <div class="project-card reveal">
+                <div class="project-header">
+                    <i class="fas fa-bolt project-icon"></i>
+                    <div class="project-links">
+                        <span class="status-badge">In Progress</span>
+                    </div>
+                </div>
+                <h3>Tiered Billing Calculator</h3>
+                <p>Implementing complex tiered mathematical logic for utility billing with robust input validation to prevent user errors and crash scenarios.</p>
+                <div class="project-tech">
+                    <span>Python</span> <span>Algorithms</span>
+                </div>
             </div>
 
         </div>
     </section>
 
     <!-- CONTACT SECTION -->
-    <section id="contact">
-        <h2 class="section-title">Let's Connect</h2>
-        <div style="text-align: center;">
-            <p style="font-size: 1.2rem; margin-bottom: 20px;">I am currently learning and looking for new opportunities. Feel free to reach out!</p>
-            <a href="mailto:chykritam137@gmail.com" class="btn"><i class="fas fa-envelope"></i> Email Me</a>
+    <section id="contact" class="container reveal">
+        <div class="contact-section">
+            <h2>Get In Touch</h2>
+            <p>I'm currently looking for internships and open to new opportunities. Whether you have a question or just want to say hi, I'll try my best to get back to you!</p>
+            <a href="mailto:chykritam137@gmail.com" class="btn btn-primary" style="padding: 16px 40px; font-size: 1.2rem;">Say Hello</a>
         </div>
     </section>
 
     <!-- FOOTER -->
     <footer>
-        <p>&copy; 2026 Kritam Chaudhary. Built with code & coffee.</p>
+        <div class="container">
+            <p>&copy; 2026 Kritam Chaudhary. Designed & Built for the Future.</p>
+        </div>
     </footer>
 
     <!-- INTERACTIVE JAVASCRIPT -->
     <script>
-        // 1. DARK MODE TOGGLE LOGIC
-        const themeToggle = document.getElementById('theme-toggle');
-        const body = document.body;
-        const icon = themeToggle.querySelector('i');
+        // 1. Dark/Light Theme Toggle
+        const themeBtn = document.getElementById('theme-toggle');
+        const htmlElement = document.documentElement;
+        const icon = themeBtn.querySelector('i');
 
-        themeToggle.addEventListener('click', () => {
-            body.classList.toggle('dark-mode');
-            if (body.classList.contains('dark-mode')) {
-                icon.classList.remove('fa-moon');
-                icon.classList.add('fa-sun');
-            } else {
-                icon.classList.remove('fa-sun');
-                icon.classList.add('fa-moon');
-            }
+        // Check for saved theme
+        const savedTheme = localStorage.getItem('theme') || 'dark';
+        htmlElement.setAttribute('data-theme', savedTheme);
+        updateIcon(savedTheme);
+
+        themeBtn.addEventListener('click', () => {
+            const currentTheme = htmlElement.getAttribute('data-theme');
+            const newTheme = currentTheme === 'dark' ? 'light' : 'dark';
+            
+            htmlElement.setAttribute('data-theme', newTheme);
+            localStorage.setItem('theme', newTheme);
+            updateIcon(newTheme);
         });
 
-        // 2. TYPING EFFECT LOGIC
-        const textArray = ["A Python Developer", "A Database Enthusiast", "A Tech Explorer"];
-        let textIndex = 0;
-        let charIndex = 0;
-        let isDeleting = false;
-        const typingSpeed = 100;
-        const deletingSpeed = 50;
-        const delayBetweenWords = 2000;
-
-        function type() {
-            const currentText = textArray[textIndex];
-            const displayElement = document.getElementById("typing-text");
-
-            if (isDeleting) {
-                displayElement.textContent = currentText.substring(0, charIndex - 1);
-                charIndex--;
+        function updateIcon(theme) {
+            if (theme === 'dark') {
+                icon.className = 'fas fa-sun';
             } else {
-                displayElement.textContent = currentText.substring(0, charIndex + 1);
-                charIndex++;
+                icon.className = 'fas fa-moon';
             }
+        }
 
-            if (!isDeleting && charIndex === currentText.length) {
-                setTimeout(() => isDeleting = true, delayBetweenWords);
-            } else if (isDeleting && charIndex === 0) {
-                isDeleting = false;
-                textIndex = (textIndex + 1) % textArray.length;
+        // 2. Typing Animation
+        const phrases = ["Python Scripts.", "Database Architectures.", "Data Automations.", "Secure Systems."];
+        let i = 0;
+        let j = 0;
+        let currentPhrase = [];
+        let isDeleting = false;
+        let isEnd = false;
+
+        function loop() {
+            isEnd = false;
+            const textDisplay = document.getElementById('typing-text');
+            
+            if (i < phrases.length) {
+                if (!isDeleting && j <= phrases[i].length) {
+                    currentPhrase.push(phrases[i][j]);
+                    j++;
+                    textDisplay.innerHTML = currentPhrase.join('');
+                }
+
+                if (isDeleting && j <= phrases[i].length) {
+                    currentPhrase.pop();
+                    j--;
+                    textDisplay.innerHTML = currentPhrase.join('');
+                }
+
+                if (j == phrases[i].length) {
+                    isEnd = true;
+                    isDeleting = true;
+                }
+
+                if (isDeleting && j === 0) {
+                    currentPhrase = [];
+                    isDeleting = false;
+                    i++;
+                    if (i === phrases.length) {
+                        i = 0;
+                    }
+                }
             }
-
-            const speed = isDeleting ? deletingSpeed : typingSpeed;
-            setTimeout(type, speed);
+            
+            const speedUp = Math.random() * (80 - 50) + 50;
+            const normalSpeed = Math.random() * (200 - 100) + 100;
+            const time = isEnd ? 2000 : isDeleting ? speedUp : normalSpeed;
+            
+            setTimeout(loop, time);
         }
         
-        // Start the typing effect when the page loads
-        document.addEventListener("DOMContentLoaded", function() {
-            setTimeout(type, 1000);
-        });
+        // Start typing after 1 second
+        setTimeout(loop, 1000);
+
+        // 3. Scroll Reveal & Progress Bar Animation (Intersection Observer)
+        const revealElements = document.querySelectorAll('.reveal');
+        const progressBars = document.querySelectorAll('.animate-bar');
+
+        const observerOptions = {
+            threshold: 0.2, // Trigger when 20% of element is visible
+            rootMargin: "0px 0px -50px 0px"
+        };
+
+        const observer = new IntersectionObserver((entries) => {
+            entries.forEach(entry => {
+                if (entry.isIntersecting) {
+                    // Reveal the element
+                    entry.target.classList.add('active');
+                    
+                    // If the revealed element contains progress bars, animate them
+                    const barsInside = entry.target.querySelectorAll('.animate-bar');
+                    barsInside.forEach(bar => {
+                        const targetWidth = bar.getAttribute('data-width');
+                        bar.style.width = targetWidth;
+                    });
+
+                    // Check if the element itself IS a progress bar (just in case)
+                    if(entry.target.classList.contains('animate-bar')){
+                         const targetWidth = entry.target.getAttribute('data-width');
+                         entry.target.style.width = targetWidth;
+                    }
+                    
+                    // Optional: Unobserve after revealing to only animate once
+                    // observer.unobserve(entry.target); 
+                }
+            });
+        }, observerOptions);
+
+        revealElements.forEach(el => observer.observe(el));
+        
+        // Ensure progress bars not in a .reveal container also animate
+        progressBars.forEach(bar => observer.observe(bar));
+
     </script>
 </body>
 </html>
